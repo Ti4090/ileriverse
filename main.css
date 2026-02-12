@@ -1,0 +1,253 @@
+/* main.css — polished layout, topbar, 3D countdown, custom cursor */
+:root{
+  --royal-purple:#6B1B83;
+  --purpleish-blue:#5E42F3;
+  --plum-purple:#480A5C;
+  --turquoise:#3CCFB1;
+  --vibrant-blue:#3E38F2;
+  --bright-lavender:#BC48FD;
+  --water-blue:#4994D9;
+  --bg-dark:#040204;
+  --glass: rgba(255,255,255,0.06);
+}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+  margin:0; font-family:Poppins,system-ui,Segoe UI,Arial; background:var(--bg-dark); color:#fff; overflow-y:auto; -webkit-font-smoothing:antialiased;
+}
+
+/* Topbar */
+.topbar{position:fixed;top:0;left:0;right:0;height:110px;display:flex;align-items:center;justify-content:space-between;padding:0 24px;background:linear-gradient(180deg, rgba(5,5,8,0.5), rgba(5,5,8,0.25));backdrop-filter: blur(8px);z-index:200;border-bottom:1px solid rgba(255,255,255,0.03)}
+.topbar .top-left{display:flex;align-items:center;gap:12px}
+.topbar #logo{width:90px;height:90px;object-fit:contain;transition:transform .18s ease}
+.brand-link{display:flex;align-items:center;gap:10px;text-decoration:none}
+.brand-name{font-family:Orbitron, sans-serif;color:var(--bright-lavender);font-weight:700;letter-spacing:2px;font-size:18px}
+.top-links{display:flex;gap:28px;list-style:none;margin:0 50px 0 auto;padding:0;align-items:center}
+.top-links a{color:rgba(255,255,255,.75);text-decoration:none;font-weight:600;font-size:15px;padding:10px 0;position:relative;transition:all .3s ease;border:none}
+.top-links a::after{content:"";position:absolute;bottom:-6px;left:0;width:0;height:3px;background:linear-gradient(90deg, var(--turquoise), var(--vibrant-purple));transition:width .4s cubic-bezier(.34,.1,.64,.88);border-radius:2px;box-shadow:0 0 0 rgba(60,203,188,0.6)}
+.top-links a:hover{color:#fff;text-shadow:0 0 20px rgba(188,72,253,0.4)}
+.top-links a:hover::after{width:100%;box-shadow:0 0 12px rgba(60,203,188,0.8)}
+.top-right button{background:linear-gradient(90deg,var(--turquoise),var(--vibrant-blue));border:0;padding:8px 14px;border-radius:999px;color:#031014;font-weight:700;cursor:pointer}
+
+/* Canvas & stars */
+#bg{position:fixed;inset:0;z-index:0}
+#stars{position:fixed;inset:0;pointer-events:none;z-index:1}
+body::after{content:"";position:fixed;inset:0;pointer-events:none;background:radial-gradient(ellipse at 10% 20%, rgba(60,203,188,.04), transparent 12%), radial-gradient(ellipse at 85% 70%, rgba(188,72,253,.04), transparent 12%);mix-blend-mode:screen;z-index:1}
+
+/* Hero */
+.hero{position:relative;z-index:2;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:140px 20px 60px;text-align:center}
+.hero-inner{max-width:980px;margin:0 auto;display:flex;flex-direction:column;align-items:center;gap:28px}
+.hero-title h1{font-family:Orbitron, sans-serif;margin:0;font-weight:800;font-size:72px;color:var(--bright-lavender);text-transform:uppercase;letter-spacing:2px}
+.subtitle{margin:0;margin-top:6px;font-weight:400;color:#dfe6ff;opacity:.95}
+
+/* Countdown 3D area */
+.countdown-wrap{display:flex;align-items:center;justify-content:center;perspective:1200px;transform-style:preserve-3d}
+.countdown-3d{position:relative;width:360px;height:360px;display:grid;place-items:center;transform-style:preserve-3d;perspective:1200px}
+.countdown-3d .rings{width:220px;height:220px}
+.count-inner{position:absolute;display:flex;flex-direction:column;align-items:center;gap:8px;transform:translateZ(40px);}
+.big-days{font-family:Orbitron,sans-serif;font-size:40px;color:var(--bright-lavender);display:flex;align-items:baseline;gap:8px}
+.big-days small{font-size:12px;color:rgba(255,255,255,.75)}
+.time-row{font-family:monospace;font-size:18px;letter-spacing:2px;color:rgba(255,255,255,.9)}
+.note{font-size:13px;color:rgba(255,255,255,.75)}
+
+/* 3D styling and layers for countdown */
+.countdown-3d{transition:transform 0.18s ease-out;will-change:transform}
+.countdown-3d .rings{filter:drop-shadow(0 16px 26px rgba(0,0,0,0.6));transform:translateZ(-6px) rotateX(6deg)}
+.countdown-3d::before{content:"";position:absolute;inset:0;border-radius:18px;padding:6px;pointer-events:none;box-shadow:inset 0 8px 40px rgba(92,50,160,0.06)}
+.countdown-3d .ring{transition:stroke-dashoffset 400ms linear, stroke 300ms linear}
+
+/* inner glass card */
+.count-inner{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));padding:18px;border-radius:12px;backdrop-filter:blur(6px);border:1px solid rgba(255,255,255,0.04)}
+.count-inner .big-days{transform:translateZ(30px);text-shadow:0 6px 24px rgba(92,50,160,0.16)}
+.time-row{transform:translateZ(22px);opacity:0.98}
+
+/* subtle rotating sheen */
+.countdown-3d .sheen{position:absolute;inset:0;border-radius:200px;background:linear-gradient(120deg, rgba(255,255,255,0.06), rgba(255,255,255,0.0));mix-blend-mode:screen;pointer-events:none;transform:translateZ(60px);opacity:0.9}
+
+
+/* Hero CTA */
+.hero-cta{display:flex;gap:12px;margin-top:8px}
+.primary{background:linear-gradient(90deg,var(--turquoise),var(--vibrant-blue));border:0;padding:12px 18px;border-radius:10px;color:#031014;font-weight:700;cursor:pointer}
+.ghost{background:transparent;border:1px solid rgba(255,255,255,.08);padding:12px 18px;border-radius:10px;color:#fff;cursor:pointer}
+
+
+/* Stars (DOM fallback) */
+.star{position:absolute;width:2px;height:2px;background:transparent;border-radius:50%;box-shadow:0 0 6px 2px rgba(255,255,255,.9)}
+
+/* small helpers */
+.visually-hidden{position:absolute!important;clip:rect(1px,1px,1px,1px);padding:0;border:0;height:1px;width:1px;overflow:hidden}
+
+/* Tablet and smaller phones (max 768px) */
+@media (max-width:768px){
+  .hero{padding:100px 16px 50px}
+  .hero-inner{gap:24px}
+  .hero-title h1{font-size:40px}
+  .countdown-3d{width:300px;height:300px}
+  .countdown-3d .rings{width:190px;height:190px}
+  .big-days{font-size:36px}
+  .time-row{font-size:16px}
+  .topbar{padding:0 16px}
+  .topbar #logo{width:75px;height:75px}
+  .brand-name{font-size:16px}
+}
+
+/* Phones (max 640px) */
+@media (max-width:640px){
+  .top-links{display:none}
+  .top-right{display:none}
+  .hero{padding:100px 14px 40px}
+  .hero-inner{gap:20px;padding:0}
+  .hero-title h1{font-size:32px;line-height:1.2}
+  .subtitle{font-size:14px}
+  .countdown-3d{width:260px;height:260px}
+  .countdown-3d .rings{width:170px;height:170px}
+  .big-days{font-size:32px}
+  .big-days small{font-size:10px}
+  .time-row{font-size:14px}
+  .note{font-size:12px}
+  .topbar{height:90px;padding:0 12px}
+  .topbar #logo{width:70px;height:70px}
+  .brand-name{font-size:15px}
+  .hero-cta{gap:8px}
+  .primary{padding:9px 14px;font-size:13px}
+  .ghost{padding:9px 14px;font-size:13px}
+  .flip-unit{width:70px;gap:6px}
+  .flip-card{width:70px;height:70px}
+  .card-face .value{font-size:20px}
+  .card-face{transition:transform 420ms cubic-bezier(.22,.9,.3,1)}
+  .flip-card.flipping .front{transform:rotateX(180deg)}
+  .flip-card.flipping .back{transform:rotateX(0deg)}
+}
+
+/* Small phones (max 480px) */
+@media (max-width:480px){
+  .hero{padding:85px 12px 35px}
+  .hero-inner{gap:18px}
+  .hero-title h1{font-size:36px;letter-spacing:1px}
+  .subtitle{font-size:13px}
+  .countdown-3d{width:220px;height:220px}
+  .countdown-3d .rings{width:140px;height:140px}
+  .big-days{font-size:28px}
+  .big-days small{font-size:9px}
+  .time-row{font-size:13px;letter-spacing:1px}
+  .note{font-size:11px}
+  .topbar{height:85px;padding:0 10px}
+  .topbar #logo{width:65px;height:65px}
+  .brand-name{font-size:14px}
+  .hero-cta{gap:6px;flex-wrap:wrap}
+  .primary{padding:8px 12px;font-size:12px}
+  .ghost{padding:8px 12px;font-size:12px}
+  .flip-unit{width:60px;gap:4px}
+  .flip-card{width:60px;height:60px}
+  .card-face .value{font-size:18px}
+  .flip-unit .label{font-size:10px}
+}
+
+/* Very small phones (max 380px) */
+@media (max-width:380px){
+  .hero{padding:80px 10px 30px}
+  .hero-title h1{font-size:32px}
+  .countdown-3d{width:200px;height:200px}
+  .countdown-3d .rings{width:130px;height:130px}
+  .big-days{font-size:24px}
+  .time-row{font-size:12px}
+  .topbar{height:80px}
+  .topbar #logo{width:60px;height:60px}
+  .brand-name{font-size:13px}
+  .primary{padding:7px 10px;font-size:11px}
+  .ghost{padding:7px 10px;font-size:11px}
+  .flip-unit{width:54px}
+  .flip-card{width:54px;height:54px}
+  .card-face .value{font-size:16px}
+}
+
+/* Provide background coverage for placeholder pages */
+canvas#bg{z-index:0}
+div#stars{z-index:1}
+
+
+/* Hamburger and mobile menu */
+.hamburger{display:none;width:48px;height:48px;border-radius:10px;background:rgba(188,72,253,0.08);border:1.5px solid rgba(188,72,253,0.3);align-items:center;justify-content:center;cursor:pointer;transition:all .28s ease}
+.hamburger:hover{background:rgba(188,72,253,0.15);border-color:rgba(188,72,253,0.5);box-shadow:0 0 20px rgba(188,72,253,0.2)}
+.hamburger span{display:block;width:24px;height:2.5px;background:linear-gradient(90deg, rgba(60,203,188,0.95), rgba(188,72,253,0.95));position:relative;border-radius:2px;transition:all .32s cubic-bezier(.34,.1,.64,.88)}
+.hamburger span::before,.hamburger span::after{content:"";position:absolute;left:0;width:24px;height:2.5px;background:linear-gradient(90deg, rgba(60,203,188,0.95), rgba(188,72,253,0.95));border-radius:2px;transition:all .32s cubic-bezier(.34,.1,.64,.88)}
+.hamburger span::before{top:-8px}.hamburger span::after{top:8px}
+
+.hamburger.open{background:rgba(188,72,253,0.2);border-color:rgba(188,72,253,0.6)}
+.hamburger.open span{background:transparent}
+.hamburger.open span::before{transform:translateY(8px) rotate(45deg);background:linear-gradient(90deg, rgba(60,203,188,1), rgba(188,72,253,1))}
+.hamburger.open span::after{transform:translateY(-8px) rotate(-45deg);background:linear-gradient(90deg, rgba(188,72,253,1), rgba(60,203,188,1))}
+
+.mobile-menu{position:fixed;inset:64px 12px auto 12px;padding:12px;background:linear-gradient(180deg, rgba(10,10,16,0.98), rgba(10,10,16,0.94));backdrop-filter:blur(12px);border:1px solid rgba(188,72,253,0.2);border-radius:14px;box-shadow:0 40px 100px rgba(0,0,0,0.8), inset 0 1px 0 rgba(255,255,255,0.05);display:block;z-index:250;max-height:0;overflow:hidden;opacity:0;transition:max-height .42s cubic-bezier(.34,.1,.64,.88),opacity .28s}
+.mobile-menu.open{max-height:480px;opacity:1}
+.mobile-menu a{display:block;padding:14px 16px;color:rgba(255,255,255,.95);text-decoration:none;border-radius:10px;margin:8px 0;transform:translateX(-20px);opacity:0;transition:all .32s cubic-bezier(.34,.1,.64,.88);position:relative;border-left:2px solid transparent;background:linear-gradient(90deg, rgba(188,72,253,0.05), transparent)}
+.mobile-menu.open a{transform:translateX(0);opacity:1;border-left-color:rgba(188,72,253,0.4)}
+.mobile-menu a:hover{background:linear-gradient(90deg, rgba(188,72,253,0.12), rgba(60,203,188,0.06));border-left-color:rgba(188,72,253,0.8);padding-left:20px}
+
+body.mobile-menu-open .mobile-menu{display:block}
+@media (max-width:640px){.hamburger{display:flex}.top-right{display:none}}
+
+/* subtle card/glass for sections if needed */
+.card{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));border-radius:14px;padding:14px;border:1px solid rgba(255,255,255,0.03)}
+
+/* Flip-card countdown styles */
+.flip-countdown{display:flex;gap:18px;align-items:center;justify-content:center;margin:0 auto;perspective:1200px;transform-style:preserve-3d;will-change:transform}
+.flip-unit{width:120px;display:flex;flex-direction:column;align-items:center;gap:10px}
+.flip-unit .label{font-size:13px;color:rgba(255,255,255,.8);letter-spacing:.6px}
+.flip-card{width:120px;height:120px;position:relative;perspective:1200px}
+.card-face{position:absolute;inset:0;border-radius:14px;display:grid;place-items:center;background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));backdrop-filter:blur(6px);border:1px solid rgba(255,255,255,0.04);box-shadow:0 18px 40px rgba(20,8,40,0.6);transform-origin:center;transition:transform 550ms cubic-bezier(.2,.9,.2,1), opacity 300ms;backface-visibility:hidden;transform-style:preserve-3d}
+.card-face.front{transform:rotateX(0deg) translateZ(0)}
+.card-face.back{transform:rotateX(180deg) translateZ(0)}
+.flip-card.flipping .front{transform:rotateX(180deg)}
+.flip-card.flipping .back{transform:rotateX(0deg)}
+.card-face .value{font-family:Orbitron, monospace;font-size:34px;color:#fff;text-shadow:0 8px 32px rgba(92,50,160,0.18)}
+
+/* About Us Section */
+.about-us{position:relative;z-index:2;padding:80px 20px;background:linear-gradient(180deg, rgba(10,10,16,0.6), rgba(5,5,8,0.8));border-top:1px solid rgba(188,72,253,0.1)}
+.about-container{max-width:1000px;margin:0 auto}
+.about-us h2{font-family:Orbitron, sans-serif;font-size:42px;color:var(--bright-lavender);margin-bottom:24px;text-align:center;letter-spacing:2px}
+.about-us > div > p{color:rgba(255,255,255,.75);font-size:16px;line-height:1.8;text-align:center;margin-bottom:60px}
+.about-features{display:grid;grid-template-columns:repeat(auto-fit, minmax(280px, 1fr));gap:30px}
+.feature{background:linear-gradient(135deg, rgba(188,72,253,0.08), rgba(60,203,188,0.05));border:1px solid rgba(188,72,253,0.2);border-radius:16px;padding:32px;backdrop-filter:blur(8px);transition:all .3s ease}
+.feature:hover{background:linear-gradient(135deg, rgba(188,72,253,0.12), rgba(60,203,188,0.08));border-color:rgba(188,72,253,0.4);transform:translateY(-6px);box-shadow:0 20px 40px rgba(188,72,253,0.15)}
+.feature h3{font-family:Orbitron, sans-serif;color:var(--turquoise);font-size:18px;margin-bottom:12px;letter-spacing:1px}
+.feature p{color:rgba(255,255,255,.7);font-size:14px;line-height:1.6}
+
+/* About Us Page */
+.about-us-page{position:relative;z-index:2;padding:120px 20px;background:transparent;min-height:100vh}
+.about-us-page > div{max-width:1000px;margin:0 auto}
+.about-us-page h1{font-family:'Orbitron', 'Arial', sans-serif;font-size:48px;color:var(--bright-lavender);margin-bottom:30px;text-align:center;letter-spacing:2px}
+.about-intro{color:rgba(255,255,255,.8);font-size:18px;line-height:1.9;text-align:center;margin-bottom:70px;max-width:900px;margin-left:auto;margin-right:auto}
+.about-mission{margin:70px 0;padding:40px;background:linear-gradient(135deg, rgba(188,72,253,0.1), rgba(60,203,188,0.05));border:1px solid rgba(188,72,253,0.2);border-radius:16px;backdrop-filter:blur(8px)}
+.about-mission h2{font-family:'Orbitron', 'Arial', sans-serif;color:var(--turquoise);font-size:32px;margin-bottom:20px;letter-spacing:1px}
+.about-mission p{color:rgba(255,255,255,.75);font-size:16px;line-height:1.8}
+.about-values{margin:70px 0}
+.about-values h2{font-family:'Orbitron', 'Arial', sans-serif;color:var(--bright-lavender);font-size:32px;margin-bottom:40px;text-align:center;letter-spacing:1px}
+.values-grid{display:grid;grid-template-columns:repeat(auto-fit, minmax(240px, 1fr));gap:25px}
+.value-item{background:linear-gradient(135deg, rgba(188,72,253,0.08), rgba(60,203,188,0.05));border:1px solid rgba(188,72,253,0.2);border-radius:14px;padding:28px;backdrop-filter:blur(8px);transition:all .3s ease}
+.value-item:hover{background:linear-gradient(135deg, rgba(188,72,253,0.15), rgba(60,203,188,0.08));border-color:rgba(188,72,253,0.4);transform:translateY(-4px);box-shadow:0 15px 35px rgba(188,72,253,0.1)}
+.value-item h4{font-family:'Orbitron', 'Arial', sans-serif;color:var(--turquoise);font-size:18px;margin-bottom:12px;letter-spacing:0.5px}
+.value-item p{color:rgba(255,255,255,.7);font-size:14px;line-height:1.6}
+
+/* Placeholder pages (FAQ, etc) */
+main h1{font-family:'Orbitron', 'Arial', sans-serif;font-size:42px;color:var(--bright-lavender);margin:0 0 20px 0;letter-spacing:1px;text-align:center}
+main p{color:rgba(255,255,255,.75);font-size:16px;line-height:1.6}
+
+/* small responsive */
+@media (max-width:768px){
+  .about-us-page h1{font-size:36px}
+  .about-intro{font-size:16px}
+  .about-mission h2{font-size:26px}
+  .about-values h2{font-size:26px}
+  .value-item{padding:20px}
+}
+@media (max-width:640px){.flip-countdown{perspective:1200px}.flip-unit{width:82px}.flip-card{width:82px;height:82px}.card-face .value{font-size:22px}
+  .about-us-page{padding:80px 16px}
+  .about-us-page h1{font-size:28px}
+  .about-intro{font-size:14px}
+  .about-mission{padding:24px}
+  .about-mission h2{font-size:22px}
+  .about-values h2{font-size:22px}
+  .value-item{padding:16px}
+  .value-item h4{font-size:16px}
+}
